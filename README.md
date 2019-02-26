@@ -2,17 +2,15 @@
 
 ## Including
 
-1. Include Autoloader
+Include Autoloader
 ```php
 require_once __DIR__ . '/Services/autoloader.php';
 ```
-
-1. Import class
+Import class
 ```php
 use web2hw\Request;
 ```
-
-1.  Crete class new object
+Crete class new object
 ```php
 $request = new Request();
 ```
@@ -23,17 +21,15 @@ $request = new Request();
 
 Get request HTTP Headers
 
-1. Get all headers
+Get all headers
 ```php
 $allHeaders = $request->getHeaders();
 ```
-
-1. Get single header (Ex.: Host)
+Get single header (Ex.: Host)
 ```php
 $singleHeader = $request->getHeaders('Host');
 ```
-
-1. Get more then one header
+Get more then one header
 ```php
 $manyHeaders = $request->getHeaders(['Accept',  'Accept-Encoding']);
 ```
