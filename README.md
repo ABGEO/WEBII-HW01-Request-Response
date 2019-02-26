@@ -24,7 +24,7 @@
 
 1. Get more then one header
 
-	`$manyHeaders = $request->getHeaders(['Accept',  'accept-encoding']);`
+	`$manyHeaders = $request->getHeaders(['Accept',  'Accept-Encoding']);`
 
 ### Allowed headers
 

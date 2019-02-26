@@ -10,7 +10,7 @@ $singleHeader = $request->getHeaders('Host');
 
 $manyHeaders = $request->getHeaders([
     'Accept',
-    'accept-encoding'
+    'Accept-Encoding'
 ]);
 
 $allHeaders = $request->getHeaders();
