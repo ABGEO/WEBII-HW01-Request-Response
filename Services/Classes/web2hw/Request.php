@@ -7,7 +7,7 @@ class Request
     /**
      * Get request HTTP headers
      *
-     * @param null $key
+     * @param null|array|string $key
      * @return array|string
      */
     public function getHeaders($key = null)
