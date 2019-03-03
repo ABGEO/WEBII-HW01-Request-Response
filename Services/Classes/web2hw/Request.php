@@ -18,16 +18,27 @@ class Request
         if ($key != null) {
             if (is_array($key)) {
                 foreach ($key as $k) {
-                    $value = isset($headers[$k]) ? $headers[$k] : "Key \"{$k}\" Not Found!";
+                    $value = isset($headers[$k]) ? $headers[$k] : null;
 
                     $return[$k] = $value;
                 }
             } else
-                $return = isset($headers[$key]) ? $headers[$key] : "Key \"{$key}\" Not Found!";
+                $return = isset($headers[$key]) ? $headers[$key] : null;
         } else
             $return = $headers;
 
         return $return;
+    }
+
+    /**
+     * Check if request has header
+     *
+     * @param $key
+     * @return bool
+     */
+    public function hasHeader($key)
+    {
+        return $this->getHeaders($key) != null;
     }
 
     /**
@@ -83,7 +94,7 @@ class Request
      * @param $key
      * @return string|null
      */
-    function get($key)
+    function getQuery($key)
     {
         $queryArray = $this->getQueryParams();
 
@@ -94,12 +105,20 @@ class Request
     }
 
     /**
-     * Get request post data
+     * Get request data by method
      *
      * @return array
      */
-    function getPost()
+    function getData()
     {
-        return $_POST;
+        $method  = $this->getMethod();
+        $return = null;
+
+        if ($method == 'GET')
+            $return = $_POST;
+        else if ($method == 'POST')
+            $return = $_POST;
+
+        return $return;
     }
 }

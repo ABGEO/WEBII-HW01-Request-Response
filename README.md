@@ -39,6 +39,9 @@ $manyHeaders = $request->getHeaders(['Accept',  'Accept-Encoding']);
 #### getMethod()
 Get request HTTP method
 
+#### hasHeader($key)
+Check if request has header
+
 #### getPath()
 Get request path
 
@@ -48,11 +51,11 @@ Get request scheme(http or https)
 #### getQueryParams()
 Get request query parameters
 
-#### get($key)
+#### getQuery($key)
 Get request query parameter by key
 
-#### getPost()
-Get request post data
+#### getData()
+Get request data by method
 
 ## Class Response
 Import class
@@ -60,25 +63,7 @@ Import class
 use web2hw\Response;
 ```
 
-Crete class new object
-```php
-$request = new Response();
-```
-
-For sending the response you might:
-- Set status code
-```php
-$response->setStatusCode(200);
-```
-
-- Set HTTP Headers
-```php
-$response->setHeaders([
-    'Content-Type: application/json'
-]);
-```
-
-- Set Content
+Prepare data for transmission (Ex.: Array)
 ```php
 $arr = [
     'test' => 'vTest',
@@ -89,13 +74,22 @@ $arr = [
         ]
     ]
 ];
-
-$response->setContent(json_encode($arr));
 ```
 
-- Send it
+Crete class new object
+Class takes 3 arguments:
+- Content (**Required**; Mixed) - The data for returning
+- Status Code (**Optional**; 200 by default; Integer) - The HTTP Status Code
+- HTTP Headers (**Optional**; empty by default; Key Value Array) - The HTTP Headers
+
+
 ```php
-print_r($response->send());
+$response = new Response(json_encode($arr), 200, ['Content-Type' => 'application/json']);
+```
+
+And send it
+```php
+echo $response->sendResponse();
 ```
 
 **2019 &copy; Temuri Takalandze**

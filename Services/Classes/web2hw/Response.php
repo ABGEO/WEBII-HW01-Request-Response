@@ -4,55 +4,31 @@ namespace web2hw;
 
 class Response
 {
-    private $statusCode = 200;
-    private $headers = [];
     private $content;
+    private $statusCode;
+    private $headers;
 
     /**
-     * Set HTTP Status code for response
+     * Response constructor.
      *
+     * @param $content
      * @param int $statusCode
-     * @return Response
-     */
-    public function setStatusCode($statusCode)
-    {
-        $this->statusCode = $statusCode;
-
-        return $this;
-    }
-
-    /**
-     * Set HTTP Headers for response
-     *
      * @param array $headers
-     * @return Response
      */
-    public function setHeaders(array $headers)
-    {
-        $this->headers = $headers;
-
-        return $this;
-    }
-
-    /**
-     * Set content for response
-     *
-     * @param mixed $content
-     * @return Response
-     */
-    public function setContent($content)
+    public function __construct($content, $statusCode = 200, $headers = [])
     {
         $this->content = $content;
-
-        return $this;
+        $this->statusCode = $statusCode;
+        $this->headers = $headers;
     }
 
     /**
      * Get http status code full text
      *
+     * @param $statusCode
      * @return string
      */
-    private function getStatusCodeMsg()
+    private function getStatusCodeMsg($statusCode)
     {
         $msg = array(
             100 => 'Continue',
@@ -131,34 +107,38 @@ class Response
             599 => 'Network connect timeout error',
         );
 
-        return $msg[$this->statusCode];
+        return $msg[$statusCode];
     }
 
     /**
      * Set HTTP Headers
+     *
+     * @param $statusCode
+     * @param $headers
      */
-    private function setHTTPHeaders()
+    private function setHTTPHeaders($statusCode, $headers)
     {
         //Set HTTP Version and status header
-        header("{$_SERVER['SERVER_PROTOCOL']} {$this->statusCode} {$this->getStatusCodeMsg()}");
+        header("{$_SERVER['SERVER_PROTOCOL']} {$statusCode} {$this->getStatusCodeMsg($statusCode)}");
 
-        foreach ($this->headers as $header)
-            header($header);
+        //Set other headers
+        foreach ($headers as $k => $v)
+            header("{$k}: $v");
     }
 
     /**
-     * Send response
-     *
      * @return mixed
      */
-    public function send()
+    public function sendResponse()
     {
-        $this->setHTTPHeaders();
-
         $content = $this->content;
+        $statusCode = $this->statusCode;
+        $headers = $this->headers;
 
         if ($content == '' || $content == null)
             die('Set response content!');
+
+        $this->setHTTPHeaders($statusCode, $headers);
 
         return $content;
     }
